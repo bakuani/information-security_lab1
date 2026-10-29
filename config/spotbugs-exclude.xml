@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <!-- SPRING_ENDPOINT просто перечисляет маршруты приложения. -->
+  <Match>
+    <Bug pattern="SPRING_ENDPOINT"/>
+  </Match>
+  <!-- Конструкторы получают общие зависимости из Spring-контейнера. -->
+  <Match>
+    <Or>
+      <Class name="ru.itmo.securitylab.Database"/>
+      <Class name="ru.itmo.securitylab.AuthController"/>
+      <Class name="ru.itmo.securitylab.TaskController"/>
+    </Or>
+    <Method name="&lt;init&gt;"/>
+    <Bug pattern="EI_EXPOSE_REP2"/>
+  </Match>
+  <!-- CSRF отключён для API без cookie-аутентификации, с Bearer-токенами. -->
+  <Match>
+    <Class name="ru.itmo.securitylab.SecurityConfig"/>
+    <Method name="configureBearerCsrf"/>
+    <Bug pattern="SPRING_CSRF_PROTECTION_DISABLED"/>
+  </Match>
+</FindBugsFilter>
